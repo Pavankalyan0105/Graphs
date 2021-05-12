@@ -8,25 +8,22 @@ template <typename T>
 
 class Graph{
     public:
-        unordered_map<T , unordered_map<T , int>> adj;
+        unordered_map<T , list< pair<T , int >>> adj;
 
-        //we have edge that has node(u) and neighbour(V) and weight and bidirectional(optional )
-        void addEdge(T  u , T v , int wt, bool bidirectional = true){
-            adj[u][v] = wt;
-            if( bidirectional == true){
-                adj[v][u] = wt;
-            }
+        //we have edge that has node(u) and neighbour(V)  and bidirectional(optional )
+        void addEdge(T  u , T v  , int wt ,bool bidirectional = true){
+            adj[u].push_back(make_pair(v, wt));
 
+            if(bidirectional)
+                adj[v].push_back( make_pair(u , wt) );
         }
 
         void print(){
-
             for(auto row : adj){
-                cout<<row.first<<" := ";
+                cout<<row.first<<" :=  ";
 
-                //each row consits of another map that has neibour and wight 
                 for(auto neighbour : row.second){
-                    cout<<"("<<neighbour.first<<" , "<<neighbour.second<<") - > ";
+                    cout<<"("<<neighbour.first<<" ,"<<neighbour.second<<") -> ";
                 }
                 cout<<endl;
             }
@@ -40,7 +37,7 @@ class Graph{
 int main()
 {
     Graph<string> g;
-    g.addEdge("DC" , "RCB" , 40 , false);
+    g.addEdge("DC" , "RCB" , 40, false);
     g.addEdge("MI" , "CSK" , 40 , false);
     g.addEdge("SRH" , "PK" , 40 , false);
     g.addEdge("KKR" , "RCB" ,40 , false);
