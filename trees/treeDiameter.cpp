@@ -6,7 +6,7 @@
 #define mod 1000000007
 using namespace std;
 
-vector<int> h(999999 , 0);
+// vector<int> h(999999 , 0);
 int ans=0;
 
 int dfs(vector<int> arr[] , int src  , int parent){
@@ -25,13 +25,13 @@ int dfs(vector<int> arr[] , int src  , int parent){
               else if(height > h2) h2 = height;   
             }
         }
-        h[src] = h1;
+        // h[src] = h1;
         // cout<<src<<"->"<<h1<<"+"<<h2<<endl;
         ans = max(ans , h1+h2);
 
 
 
-        return 1+h[src];
+        return 1+h1;
 }
 
 
