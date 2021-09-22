@@ -1,0 +1,103 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+class Edge{
+public:
+      int u ,v, wt;
+      Edge(int u , int v , int wt){
+            this->u = u;
+            this->v = v;
+            this->wt = wt;
+      }
+};
+
+int findParent(int n ,vector<int>& parent){
+      if(n == parent[n]) return n;
+
+      return parent[n] = findParent(parent[n] , parent);
+}
+
+
+void unionn(int u , int v ,vector<int>&  parent,vector<int>& rank){
+      u = findParent(u , parent);
+      v = findParent(v , parent);
+
+      if(rank[u] > rank[v]){
+            parent[v] = u;
+      }
+      else if(rank[u] > rank[v]){
+            parent[u] = v;
+      }
+      else{
+            parent[u] = v;
+            rank[v]++;
+      }
+
+}
+
+
+
+
+
+bool comp(Edge e1 , Edge e2){
+      return e1.wt < e2.wt;
+}
+
+
+void solve(){
+
+      int vertices , edges;
+      cin>>vertices>>edges;
+
+      vector<Edge> G;
+      for(int i=0;i<edges;i++){
+            int u,v,wt;
+            cin>>u>>v>>wt;
+            G.push_back(Edge(u,v,wt));
+      }     
+
+      sort(G.begin() , G.end() , comp);
+
+      vector<int> parent(vertices+1);
+      for(int i=1;i<=vertices;i++)
+            parent[i] = i;
+
+      vector<int> rank(vertices , 0);
+
+
+
+      vector<pair<int,int>> mst;
+      int cost=0;
+
+      for(auto i:G){
+            int u  = i.u;
+            int v  = i.v;
+            if(parent[u] != parent[v]){
+                  unionn(u , v , parent , rank);
+                  mst.push_back({u,v});
+                  cost+=i.wt;
+            }
+      }
+      for(auto i:mst){
+            cout<<i.first<<" "<<i.second<<endl;
+      }
+
+}
+
+int32_t main(){
+
+      #ifndef ONLINE_JUDGE
+          freopen("input.txt", "r", stdin);
+          freopen("output.txt", "w", stdout);
+      #endif
+
+    int T=1;
+    // cin>>T;
+    while(T--){
+          solve();
+    }
+
+}
+
+
+
